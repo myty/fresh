@@ -6,11 +6,12 @@
     ".": "./src/mod.ts"
   },
   "imports": {
-    "fresh": "jsr:@fresh/core@^2.0.0-alpha.22",
+    "@tailwindcss/postcss": "npm:@tailwindcss/postcss@^4.1.7",
+    "fresh": "jsr:@fresh/core@^2.0.0-alpha.33",
     "@std/path": "jsr:@std/path@1",
-    "autoprefixer": "npm:autoprefixer@10.4.17",
-    "cssnano": "npm:cssnano@6.0.3",
-    "postcss": "npm:postcss@8.4.35",
-    "tailwindcss": "npm:tailwindcss@^3.4.1"
+    "autoprefixer": "npm:autoprefixer@10.4.21",
+    "cssnano": "npm:cssnano@7.0.7",
+    "postcss": "npm:postcss@8.5.3",
+    "tailwindcss": "npm:tailwindcss@^4.1.7"
   }
 }

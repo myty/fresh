@@ -204,18 +204,6 @@ CMD ["run", "-A", "main.ts"]
     await writeFile("Dockerfile", DOCKERFILE_TEXT);
   }
 
-  const TAILWIND_CONFIG_TS = `import type { Config } from "tailwindcss";
-
-export default {
-  content: [
-    "{routes,islands,components}/**/*.{ts,tsx}",
-  ],
-} satisfies Config;`;
-  if (useTailwind) {
-    await writeFile("tailwind.config.ts", TAILWIND_CONFIG_TS);
-  }
-
-  // deno-fmt-ignore
   const GRADIENT_CSS = css`.fresh-gradient {
   background-color: rgb(134, 239, 172);
   background-image: linear-gradient(
@@ -242,14 +230,8 @@ button, [role="button"] {
 }
 code {
   font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    "Liberation Mono",
-    "Courier New",
-    monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   font-size: 1em;
 }
 img,
@@ -266,19 +248,9 @@ html {
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
   font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    "Noto Sans",
-    sans-serif,
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Segoe UI Symbol",
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 }
 .transition-colors {
@@ -376,9 +348,8 @@ html {
 
 ${GRADIENT_CSS}`;
 
-  const TAILWIND_CSS = css`@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  const TAILWIND_CSS = css`@import "tailwindcss";
+
 ${GRADIENT_CSS}`;
 
   const cssStyles = useTailwind ? TAILWIND_CSS : NO_TAILWIND_STYLES;
@@ -591,7 +562,7 @@ if (Deno.args.includes("build")) {
   };
 
   if (useTailwind) {
-    denoJson.imports["tailwindcss"] = "npm:tailwindcss@^3.4.3";
+    denoJson.imports["tailwindcss"] = "npm:tailwindcss@^4.1.7";
   }
 
   await writeFile("deno.json", denoJson);
@@ -633,6 +604,12 @@ This will watch the project directory and restart as necessary.`;
         "editor.defaultFormatter": "denoland.vscode-deno",
       },
       "css.customData": useTailwind ? [".vscode/tailwind.json"] : undefined,
+      "files.associations": useTailwind ? {
+        "*.css": "tailwindcss"
+      } : undefined,
+      "[tailwindcss]": useTailwind ? {
+        "tailwindCSS.colorDecorators": true
+      } : undefined,
     };
 
     await writeFile(".vscode/settings.json", vscodeSettings);
